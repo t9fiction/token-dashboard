@@ -21,7 +21,7 @@ function App() {
   const [isModal, setIsModal] = useState(false);
 
   const referralCode = window.location.pathname.split("?id=")[1];
-  console.log(referralCode);
+  // console.log(referralCode);
 
   // This is the function that runs in the start and takes values from the config file and updates the starting vales.
   const startFunction = async () => {
@@ -31,6 +31,7 @@ function App() {
     setweb3global(web3);
     console.log(isContract);
     console.log(web3);
+    setselectedEthValueinWei(0)
   };
 
   const addReferral = async (addt) => {
@@ -41,9 +42,9 @@ function App() {
       })
       .then((res) => {
         if (res.statusText === "OK") {
-          swal("Success", "Referral added", "success");
+          swal.fire("Success", "Referral added", "success");
         } else {
-          swal("Error", "Referral could not be added", "Error");
+          swal.fire("Error", "Referral could not be added", "Error");
         }
       });
   };
@@ -217,12 +218,12 @@ function App() {
     for (let i = 0; i < error_list.length; i++) {
       if (temp_error.includes(error_list[i])) {
         // set ("Transcation Failed")
-        alert(error_list[i]);
+        swal.fire(error_list[i].toLocaleUpperCase());
       }
     }
   }
   async function buy() {
-    if (web3Global) {
+    if (selectedEthValueinWei>0) {
       // const web3 = new Web3(Web3.givenProvider);
       // await Web3.givenProvider.enable();
       // const contract = new web3.eth.Contract(contract_abi, contract_address);
@@ -256,7 +257,7 @@ function App() {
 
       // await contract.methods.tokenByIndex(i).call();
     } else {
-      alert("Web3 Not Found. Try refreshing if you have metamask installed.");
+      swal.fire("Please select the no of Tokens to buy");
     }
   }
   function calculate_progress(contractEthBalance) {
